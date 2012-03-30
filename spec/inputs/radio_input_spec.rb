@@ -17,6 +17,8 @@ describe 'radio input' do
       end)
     end
 
+    include_examples 'data attributes sugar', :radio
+
     it_should_have_input_wrapper_with_class("radio")
     it_should_have_input_wrapper_with_class(:input)
     it_should_have_input_wrapper_with_id("post_author_input")

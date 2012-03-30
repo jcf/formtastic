@@ -10,6 +10,8 @@ describe 'country input' do
     mock_everything
   end
 
+  include_examples 'data attributes sugar', :country
+
   describe "when country_select is not available as a helper from a plugin" do
 
     it "should raise an error, sugesting the author installs a plugin" do

@@ -14,6 +14,8 @@ describe 'file input' do
     end)
   end
 
+  include_examples 'data attributes sugar', :file
+
   it_should_have_input_wrapper_with_class("file")
   it_should_have_input_wrapper_with_class(:input)
   it_should_have_input_wrapper_with_id("post_body_input")
@@ -45,7 +47,7 @@ describe 'file input' do
     it_should_have_label_and_input_with_id("context2_post_body")
 
   end
-  
+
   describe "when index is provided" do
 
     before do
@@ -58,22 +60,22 @@ describe 'file input' do
         end)
       end)
     end
-    
+
     it 'should index the id of the wrapper' do
       output_buffer.should have_tag("li#post_author_attributes_3_name_input")
     end
-    
+
     it 'should index the id of the select tag' do
       output_buffer.should have_tag("input#post_author_attributes_3_name")
     end
-    
+
     it 'should index the name of the select tag' do
       output_buffer.should have_tag("input[@name='post[author_attributes][3][name]']")
     end
-    
+
   end
-  
-  
+
+
   context "when required" do
     it "should add the required attribute to the input's html options" do
       with_config :use_required_attribute, true do
@@ -84,6 +86,6 @@ describe 'file input' do
       end
     end
   end
-  
+
 end
 

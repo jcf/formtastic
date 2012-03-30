@@ -10,6 +10,8 @@ describe 'select input' do
     mock_everything
   end
 
+  include_examples 'data attributes sugar', :select
+
   describe 'explicit values' do
     describe 'using an array of values' do
       before do
@@ -163,7 +165,7 @@ describe 'select input' do
     it 'should not create a multi-select' do
       output_buffer.should_not have_tag('form li select[@multiple]')
     end
-    
+
     it 'should not add a hidden input' do
       output_buffer.should_not have_tag('form li input[@type="hidden"]')
     end
@@ -309,7 +311,7 @@ describe 'select input' do
     it 'should call find with :include for more optimized queries' do
       Author.should_receive(:where).with(:include => :continent)
 
-      with_deprecation_silenced do 
+      with_deprecation_silenced do
         semantic_form_for(@new_post) do |builder|
           concat(builder.input(:author, :as => :select, :group_by => :continent ) )
         end
@@ -340,7 +342,7 @@ describe 'select input' do
     it 'should have a multi-select select' do
       output_buffer.should have_tag('form li select[@multiple="multiple"]')
     end
-    
+
     it 'should append [] to the name attribute for multiple select' do
       output_buffer.should have_tag('form li select[@multiple="multiple"][@name="author[post_ids][]"]')
     end
@@ -577,32 +579,32 @@ describe 'select input' do
     it_should_have_select_with_id("context2_post_author_ids")
     it_should_have_label_for("context2_post_author_ids")
   end
-  
+
   describe "when index is provided" do
-  
+
     before do
       @output_buffer = ''
       mock_everything
-  
+
       concat(semantic_form_for(@new_post) do |builder|
         concat(builder.fields_for(:author, :index => 3) do |author|
           concat(author.input(:name, :as => :select))
         end)
       end)
     end
-    
+
     it 'should index the id of the wrapper' do
       output_buffer.should have_tag("li#post_author_attributes_3_name_input")
     end
-    
+
     it 'should index the id of the select tag' do
       output_buffer.should have_tag("select#post_author_attributes_3_name")
     end
-    
+
     it 'should index the name of the select' do
       output_buffer.should have_tag("select[@name='post[author_attributes][3][name]']")
     end
-    
+
   end
 
   context "when required" do

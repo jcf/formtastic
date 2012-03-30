@@ -15,6 +15,8 @@ describe 'check_boxes input' do
       end)
     end
 
+    include_examples 'data attributes sugar', :check_boxes
+
     it_should_have_input_wrapper_with_class("check_boxes")
     it_should_have_input_wrapper_with_class(:input)
     it_should_have_input_wrapper_with_id("author_posts_input")
@@ -56,15 +58,15 @@ describe 'check_boxes input' do
     end
 
     describe "each choice" do
-      
+
       it 'should not give the choice label the .label class' do
         output_buffer.should_not have_tag('li.choice label.label')
       end
-      
+
       it 'should not be marked as required' do
         output_buffer.should_not have_tag('li.choice input[@required]')
       end
-      
+
       it 'should contain a label for the radio input with a nested input and label text' do
         ::Post.all.each do |post|
           output_buffer.should have_tag('form li fieldset ol li label', /#{post.to_label}/)
@@ -77,7 +79,7 @@ describe 'check_boxes input' do
           output_buffer.should have_tag("form li fieldset ol li.post_#{post.id} label")
         end
       end
-      
+
       it 'should have a checkbox input but no hidden field for each post' do
         ::Post.all.each do |post|
           output_buffer.should have_tag("form li fieldset ol li label input#author_post_ids_#{post.id}")
@@ -289,11 +291,11 @@ describe 'check_boxes input' do
       it "should not output the legend" do
         output_buffer.should_not have_tag("legend.label")
       end
-      
+
       it "should not cause escaped HTML" do
         output_buffer.should_not include("&gt;")
       end
-      
+
     end
 
     describe "when :required option is true" do
@@ -356,18 +358,18 @@ describe 'check_boxes input' do
       end
     end
   end
-  
+
   describe 'when :collection is provided as an array of arrays' do
     before do
       @output_buffer = ''
       mock_everything
       @fred.stub(:genres) { ['fiction', 'biography'] }
-      
+
       concat(semantic_form_for(@fred) do |builder|
         concat(builder.input(:genres, :as => :check_boxes, :collection => [['Fiction', 'fiction'], ['Non-fiction', 'non_fiction'], ['Biography', 'biography']]))
       end)
     end
-    
+
     it 'should check the correct checkboxes' do
       output_buffer.should have_tag("form li fieldset ol li label input[@value='fiction'][@checked='checked']")
       output_buffer.should have_tag("form li fieldset ol li label input[@value='biography'][@checked='checked']")
@@ -384,7 +386,7 @@ describe 'check_boxes input' do
         concat(builder.input(:posts, :as => :check_boxes))
       end)
     end
-    
+
     it "should have a label for #context2_author_post_ids_19" do
       output_buffer.should have_tag("form li label[@for='context2_author_post_ids_19']")
     end
@@ -392,7 +394,7 @@ describe 'check_boxes input' do
     it_should_have_input_with_id('context2_author_post_ids_19')
     it_should_have_input_wrapper_with_id("context2_author_posts_input")
   end
-  
+
   describe "when index is provided" do
 
     before do
@@ -405,11 +407,11 @@ describe 'check_boxes input' do
         end)
       end)
     end
-    
+
     it 'should index the id of the wrapper' do
       output_buffer.should have_tag("li#author_post_3_authors_input")
     end
-    
+
     it 'should index the id of the input tag' do
       output_buffer.should have_tag("input#author_post_3_author_ids_42")
     end
@@ -417,9 +419,9 @@ describe 'check_boxes input' do
     it 'should index the name of the checkbox input' do
       output_buffer.should have_tag("input[@type='checkbox'][@name='author[post][3][author_ids][]']")
     end
-    
+
   end
-  
+
 
   describe "when collection is an array" do
     before do
@@ -441,8 +443,8 @@ describe 'check_boxes input' do
 
     it "should not check any items" do
       output_buffer.should have_tag('form li input[@checked]', :count => 0)
-    end    
+    end
   end
-  
+
 end
 
